@@ -9,27 +9,27 @@
 <!-- ===== ШРИФТЫ ===== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-<!-- Простая иконка вкладки — точка-штамп в цветах бренда -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='%231F3350' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%231F3350'/%3E%3C/svg%3E">
+<!-- Иконка вкладки — красная печать в цветах бренда -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23E2241A'/%3E%3Ctext x='16' y='21' font-size='12' text-anchor='middle' fill='white' font-family='sans-serif'%3E品%3C/text%3E%3C/svg%3E">
 
 <style>
   /* =========================================================
      ПАЛИТРА И ПЕРЕМЕННЫЕ
-     Если захочешь поменять цвета сайта — меняй значения тут,
+     Меняешь цвета/шрифты сайта — меняй значения тут,
      дальше по коду они подтянутся сами.
      ========================================================= */
   :root{
-    --paper: #FAFAF6;      /* фон страницы */
-    --paper-deep: #F0EEE6; /* фон чередующихся секций */
-    --ink: #17181C;        /* основной текст */
-    --stone: #6F6A61;      /* второстепенный текст */
-    --line: #DDD8CC;       /* тонкие линии-разделители */
-    --navy: #1F3350;       /* акцент — цвет "штампа проверки" */
-    --navy-deep: #152538;
-    --gold: #A9812F;       /* акцент для мелких деталей */
-    --radius: 3px;
+    --paper: #FFFFFF;       /* фон страницы */
+    --paper-deep: #F4F3EE;  /* фон чередующихся секций */
+    --ink: #111113;         /* основной текст / чёрный */
+    --stone: #68655D;       /* второстепенный текст */
+    --line: #E4E1D7;        /* тонкие линии-разделители */
+    --red: #E2241A;         /* главный акцент — красная печать */
+    --red-deep: #A9160D;
+    --pop: #C6FF3D;         /* неоновый акцент для тэгов */
+    --radius: 4px;
     --container: 1120px;
   }
 
@@ -39,23 +39,24 @@
     margin:0;
     background:var(--paper);
     color:var(--ink);
-    font-family:'IBM Plex Sans', sans-serif;
+    font-family:'Manrope', sans-serif;
     font-size:16px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
   h1,h2,h3{
-    font-family:'Fraunces', serif;
-    font-weight:500;
-    line-height:1.15;
+    font-family:'Unbounded', sans-serif;
+    font-weight:600;
+    line-height:1.18;
     margin:0;
   }
   p{margin:0;}
   a{color:inherit;}
   img{max-width:100%;display:block;}
+  ::selection{ background:var(--red); color:#fff; }
 
   a:focus-visible, button:focus-visible, summary:focus-visible, label:focus-visible{
-    outline:2px solid var(--navy);
+    outline:2px solid var(--red);
     outline-offset:3px;
   }
 
@@ -82,26 +83,48 @@
     align-items:center;
     justify-content:center;
     gap:8px;
-    padding:14px 26px;
-    border-radius:var(--radius);
-    font-size:0.98rem;
+    padding:14px 28px;
+    border-radius:999px;
+    font-family:'Unbounded', sans-serif;
+    font-size:0.86rem;
     font-weight:600;
     text-decoration:none;
     border:1.5px solid var(--ink);
-    transition:background .18s ease, color .18s ease, border-color .18s ease;
+    transition:background .18s ease, color .18s ease, border-color .18s ease, transform .15s ease;
     cursor:pointer;
   }
-  .btn-primary{ background:var(--ink); color:var(--paper); }
-  .btn-primary:hover{ background:var(--navy); border-color:var(--navy); }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn-primary{ background:var(--ink); color:#fff; border-color:var(--ink); }
+  .btn-primary:hover{ background:var(--red); border-color:var(--red); }
   .btn-outline{ background:transparent; color:var(--ink); }
-  .btn-outline:hover{ background:var(--ink); color:var(--paper); }
+  .btn-outline:hover{ background:var(--ink); color:#fff; }
+
+  /* =========================================================
+     ТИКЕР — бегущая строка
+     ========================================================= */
+  .ticker{
+    overflow:hidden; background:var(--ink); color:#fff;
+    padding:11px 0; white-space:nowrap;
+  }
+  .ticker-track{ display:inline-flex; animation:tickerScroll 26s linear infinite; }
+  .ticker-track:hover{ animation-play-state:paused; }
+  .ticker-track span{
+    font-family:'Unbounded', sans-serif; font-weight:500;
+    font-size:0.78rem; letter-spacing:0.03em; padding-right:40px;
+  }
+  .ticker-track span em{ color:var(--pop); font-style:normal; }
+  @keyframes tickerScroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce){
+    .ticker{ overflow-x:auto; }
+    .ticker-track{ animation:none; }
+  }
 
   /* =========================================================
      ШАПКА
      ========================================================= */
   header{
     position:sticky; top:0; z-index:50;
-    background:rgba(250,250,246,0.92);
+    background:rgba(255,255,255,0.92);
     backdrop-filter:blur(6px);
     border-bottom:1px solid var(--line);
   }
@@ -110,31 +133,36 @@
     padding:18px 0;
   }
   .logo{
-    font-family:'Fraunces', serif;
-    font-size:1.15rem;
-    letter-spacing:0.04em;
-    text-transform:uppercase;
+    display:inline-flex; align-items:center;
+    font-family:'Unbounded', sans-serif;
+    font-size:1rem; font-weight:700;
+    letter-spacing:0.01em;
     text-decoration:none;
     color:var(--ink);
+  }
+  .logo .dot{
+    display:inline-block; width:7px; height:7px; border-radius:50%;
+    background:var(--red); margin-left:7px;
   }
   nav.primary-nav{ display:flex; align-items:center; gap:32px; }
   nav.primary-nav a{
     text-decoration:none;
     color:var(--ink);
     font-size:0.95rem;
+    font-weight:500;
     position:relative;
   }
   nav.primary-nav a::after{
     content:"";
     position:absolute; left:0; right:0; bottom:-4px;
-    height:1px; background:var(--navy);
+    height:2px; background:var(--red);
     transform:scaleX(0); transform-origin:left;
     transition:transform .2s ease;
   }
   nav.primary-nav a:hover::after{ transform:scaleX(1); }
 
   .nav-cta{ display:flex; align-items:center; gap:14px; }
-  .nav-cta .btn{ padding:11px 20px; font-size:0.9rem; }
+  .nav-cta .btn{ padding:10px 20px; font-size:0.78rem; }
 
   #nav-toggle{ display:none; }
   .burger{
@@ -170,15 +198,23 @@
   /* =========================================================
      ГЕРОЙ
      ========================================================= */
-  .hero{ padding-top:72px; padding-bottom:0; }
+  .hero{ padding-top:72px; padding-bottom:0; position:relative; overflow:hidden; }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0; z-index:0;
+    background-image:radial-gradient(var(--ink) 1px, transparent 1.6px);
+    background-size:14px 14px;
+    opacity:0.045;
+  }
   .hero-grid{
     display:grid;
     grid-template-columns: 1.25fr 0.85fr;
     gap:56px;
     align-items:start;
+    position:relative; z-index:1;
   }
   .hero h1{
-    font-size:clamp(2.3rem, 4.4vw, 3.6rem);
+    font-size:clamp(2.1rem, 4.2vw, 3.4rem);
     letter-spacing:-0.01em;
   }
   .hero .lede{
@@ -196,54 +232,39 @@
     padding-top:28px;
   }
   .fact{ max-width:220px; }
-  .fact strong{ display:block; font-family:'Fraunces', serif; font-size:1.05rem; margin-bottom:4px; }
+  .fact strong{ display:block; font-family:'Unbounded', sans-serif; font-weight:600; font-size:0.95rem; margin-bottom:6px; }
   .fact span{ color:var(--stone); font-size:0.92rem; }
 
   /* --- манифест / бланк отправления --- */
   .manifest{
     background:var(--paper);
     border:1px solid var(--line);
-    border-left:3px dashed var(--navy);
+    border-left:3px dashed var(--red);
     border-radius:2px;
     padding:30px 28px 28px;
-    box-shadow:0 18px 40px -24px rgba(23,24,28,0.35);
+    box-shadow:0 18px 40px -24px rgba(17,17,19,0.35);
     position:relative;
   }
   .manifest-top{
     display:flex; justify-content:space-between; align-items:flex-start;
     padding-bottom:18px; margin-bottom:18px;
     border-bottom:1px dashed var(--line);
+    gap:16px;
   }
   .manifest-top .label{
-    font-size:0.78rem; color:var(--stone); letter-spacing:0.03em;
+    font-size:0.78rem; color:var(--stone); letter-spacing:0.02em;
   }
   .manifest-top .num{
-    font-family:'Fraunces', serif; font-size:1rem; margin-top:2px;
+    font-family:'Unbounded', sans-serif; font-weight:600; font-size:0.95rem; margin-top:4px;
   }
-  .stamp{
-    width:104px; height:104px; border-radius:50%;
-    border:2px solid var(--navy);
-    display:flex; align-items:center; justify-content:center;
-    transform:rotate(-10deg);
-    flex-shrink:0;
-  }
-  .stamp::before{
-    content:""; position:absolute; width:88px; height:88px; border-radius:50%;
-    border:1px dashed var(--navy); opacity:0.55;
-  }
-  .stamp-text{
-    position:relative;
-    font-family:'IBM Plex Sans', sans-serif; font-weight:700;
-    font-size:0.62rem; text-transform:uppercase; letter-spacing:0.05em;
-    color:var(--navy); text-align:center; line-height:1.35;
-  }
+  .seal{ width:104px; height:104px; flex-shrink:0; transform:rotate(-9deg); }
   @media (prefers-reduced-motion: no-preference){
-    .stamp{ animation:stampPress .5s cubic-bezier(.2,.9,.3,1) .35s both; }
+    .seal{ animation:stampPress .5s cubic-bezier(.2,.9,.3,1) .35s both; }
   }
   @keyframes stampPress{
-    0%{ transform:rotate(-10deg) scale(1.7); opacity:0; }
+    0%{ transform:rotate(-9deg) scale(1.7); opacity:0; }
     65%{ opacity:1; }
-    100%{ transform:rotate(-10deg) scale(1); opacity:1; }
+    100%{ transform:rotate(-9deg) scale(1); opacity:1; }
   }
 
   .manifest-row{
@@ -253,7 +274,7 @@
   }
   .manifest-row:last-child{ border-bottom:none; }
   .manifest-row .k{ color:var(--stone); }
-  .manifest-row .v{ font-weight:600; text-align:right; }
+  .manifest-row .v{ font-weight:700; text-align:right; }
 
   @media (max-width:900px){
     .hero-grid{ grid-template-columns:1fr; }
@@ -268,6 +289,7 @@
       var(--ink) 13px 16px, transparent 16px 22px,
       var(--ink) 22px 23px, transparent 23px 30px);
     opacity:0.14;
+    position:relative; z-index:1;
   }
 
   /* =========================================================
@@ -283,12 +305,12 @@
   .step{ flex:1; position:relative; z-index:1; }
   .step-marker{
     width:54px; height:54px; border-radius:50%;
-    background:var(--paper-deep); border:2px solid var(--navy); color:var(--navy);
+    background:var(--ink); border:2px solid var(--ink); color:#fff;
     display:flex; align-items:center; justify-content:center;
-    font-family:'Fraunces', serif; font-size:1.2rem;
+    font-family:'Unbounded', sans-serif; font-weight:700; font-size:1.15rem;
     margin-bottom:20px;
   }
-  .step h3{ font-size:1.12rem; margin-bottom:10px; }
+  .step h3{ font-size:1.08rem; margin-bottom:10px; font-weight:600; }
   .step p{ color:var(--stone); font-size:0.96rem; }
 
   @media (max-width:820px){
@@ -304,11 +326,11 @@
   .compare{ margin-top:48px; border-top:1px solid var(--line); }
   .compare-head{
     display:grid; grid-template-columns:1fr 1fr;
-    font-family:'Fraunces', serif; font-size:1.05rem;
+    font-family:'Unbounded', sans-serif; font-weight:600; font-size:0.92rem;
     padding:16px 0;
   }
   .compare-head .h-left{ color:var(--stone); }
-  .compare-head .h-right{ color:var(--navy); }
+  .compare-head .h-right{ color:var(--red); }
   .compare-row{
     display:grid; grid-template-columns:1fr 1fr;
     border-top:1px solid var(--line);
@@ -336,9 +358,18 @@
     padding:26px 0; border-top:1px solid var(--line);
   }
   .catalog .cat-row:last-child{ border-bottom:1px solid var(--line); }
-  .cat-name{ font-family:'Fraunces', serif; font-size:1.4rem; flex-shrink:0; }
-  .cat-code{ color:var(--gold); font-size:0.82rem; letter-spacing:0.03em; }
+  .cat-name-wrap{ display:flex; align-items:center; flex-shrink:0; }
+  .cat-name{ font-family:'Unbounded', sans-serif; font-weight:600; font-size:1.25rem; }
+  .cat-code{ color:var(--stone); font-size:0.76rem; letter-spacing:0.03em; margin-top:4px; }
   .cat-desc{ color:var(--stone); text-align:right; max-width:40ch; font-size:0.94rem; }
+  .tag{
+    display:inline-block; padding:3px 12px; border-radius:20px;
+    font-family:'Unbounded', sans-serif; font-size:0.6rem; font-weight:600;
+    letter-spacing:0.03em; text-transform:uppercase;
+    transform:rotate(-4deg); margin-left:12px;
+  }
+  .tag-red{ background:var(--red); color:#fff; }
+  .tag-pop{ background:var(--pop); color:var(--ink); }
   @media (max-width:640px){
     .cat-row{ flex-direction:column; align-items:flex-start; gap:8px; }
     .cat-desc{ text-align:left; }
@@ -351,9 +382,9 @@
     display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; align-items:center;
   }
   .about blockquote{
-    margin:0; font-family:'Fraunces', serif; font-style:italic; font-weight:500;
-    font-size:1.4rem; line-height:1.4; color:var(--ink);
-    border-left:2px solid var(--navy); padding-left:24px;
+    margin:0; font-family:'Unbounded', sans-serif; font-weight:600;
+    font-size:1.3rem; line-height:1.45; color:var(--ink);
+    border-left:3px solid var(--red); padding-left:24px;
   }
   .about-meta{ margin-top:20px; color:var(--stone); font-size:0.92rem; }
   @media (max-width:820px){ .about{ grid-template-columns:1fr; } }
@@ -365,7 +396,7 @@
   .faq details{ border-bottom:1px solid var(--line); padding:22px 0; }
   .faq summary{
     cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center;
-    font-family:'Fraunces', serif; font-size:1.08rem; gap:16px;
+    font-family:'Unbounded', sans-serif; font-weight:600; font-size:1.02rem; gap:16px;
   }
   .faq summary::-webkit-details-marker{ display:none; }
   .faq .plus{
@@ -378,6 +409,7 @@
   .faq .plus::before{ left:0; right:0; top:10px; height:2px; }
   .faq .plus::after{ top:0; bottom:0; left:10px; width:2px; }
   .faq details[open] .plus::after{ transform:scaleY(0); }
+  .faq details[open] .plus::before{ background:var(--red); }
   .faq p{ margin-top:14px; color:var(--stone); max-width:64ch; font-size:0.96rem; }
 
   /* =========================================================
@@ -395,7 +427,7 @@
   }
   .contact-box::before{ left:14px; }
   .contact-box::after{ right:14px; }
-  .contact-box h2{ font-size:clamp(1.7rem,3vw,2.3rem); max-width:22ch; margin:0 auto; }
+  .contact-box h2{ font-size:clamp(1.6rem,3vw,2.2rem); max-width:22ch; margin:0 auto; }
   .contact-box p{ color:var(--stone); margin-top:16px; max-width:50ch; margin-left:auto; margin-right:auto; }
   .contact-actions{ margin-top:32px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
   @media (max-width:600px){ .contact-box{ padding:40px 22px; } }
@@ -409,7 +441,7 @@
     font-size:0.9rem; color:var(--stone);
   }
   .foot-grid a{ text-decoration:none; color:var(--ink); }
-  .foot-brand{ font-family:'Fraunces', serif; color:var(--ink); font-size:1rem; margin-bottom:6px; }
+  .foot-brand{ font-family:'Unbounded', sans-serif; font-weight:700; color:var(--ink); font-size:0.95rem; margin-bottom:6px; }
   .foot-links{ display:flex; gap:20px; flex-wrap:wrap; }
 </style>
 </head>
@@ -418,7 +450,7 @@
 <header>
   <input type="checkbox" id="nav-toggle">
   <div class="wrap nav-row">
-    <a href="#top" class="logo">Твой бренд 71</a>
+    <a href="#top" class="logo">Твой бренд 71<span class="dot"></span></a>
 
     <nav class="primary-nav">
       <a href="#how">Как это работает</a>
@@ -435,6 +467,14 @@
     </div>
   </div>
 </header>
+
+<!-- Бегущая строка — просто акцент, для скринридеров скрыта -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>ПРЯМО ИЗ КИТАЯ ・ БЕЗ ПОСРЕДНИКОВ ・ ТОЛЬКО ТРЕНДЫ ・ <em>正品</em> ・ ПРОВЕРЕНО ЛИЧНО ・ КРОССОВКИ ・ СТРИТВИР ・ ЭЛЕКТРОНИКА ・ СУМКИ ・ БИЖУТЕРИЯ ・ </span>
+    <span>ПРЯМО ИЗ КИТАЯ ・ БЕЗ ПОСРЕДНИКОВ ・ ТОЛЬКО ТРЕНДЫ ・ <em>正品</em> ・ ПРОВЕРЕНО ЛИЧНО ・ КРОССОВКИ ・ СТРИТВИР ・ ЭЛЕКТРОНИКА ・ СУМКИ ・ БИЖУТЕРИЯ ・ </span>
+  </div>
+</div>
 
 <main id="top">
 
@@ -472,12 +512,21 @@
       <div class="manifest">
         <div class="manifest-top">
           <div>
-            <div class="label">Маршрутный лист</div>
+            <div class="label">Маршрутный лист · 运单</div>
             <div class="num">CN → RU</div>
           </div>
-          <div class="stamp">
-            <span class="stamp-text">Оригинал<br>проверено</span>
-          </div>
+          <!-- Печать: 正品 = "подлинный товар" -->
+          <svg class="seal" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <path id="sealRing" d="M 70,70 m -55,0 a 55,55 0 1,1 110,0 a 55,55 0 1,1 -110,0" />
+            </defs>
+            <circle cx="70" cy="70" r="62" fill="#E2241A"/>
+            <circle cx="70" cy="70" r="51" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="3 4" opacity="0.65"/>
+            <text x="70" y="80" text-anchor="middle" font-family="Unbounded, sans-serif" font-weight="700" font-size="28" fill="#ffffff">正品</text>
+            <text font-family="Manrope, sans-serif" font-weight="700" font-size="8.4" letter-spacing="2" fill="#ffffff">
+              <textPath href="#sealRing" startOffset="2%">ПРОВЕРЕНО · ORIGINAL · ПРОВЕРЕНО · ORIGINAL ·</textPath>
+            </text>
+          </svg>
         </div>
         <div class="manifest-row"><span class="k">Откуда</span><span class="v">Китай, проверенные продавцы</span></div>
         <div class="manifest-row"><span class="k">Проверка</span><span class="v">По категории товара</span></div>
@@ -568,35 +617,41 @@
       <div class="catalog">
         <div class="cat-row">
           <div>
-            <div class="cat-name">Кроссовки</div>
+            <div class="cat-name-wrap">
+              <span class="cat-name">Кроссовки</span>
+              <span class="tag tag-red">хит</span>
+            </div>
             <div class="cat-code">POIZON / SNEAKERS</div>
           </div>
           <div class="cat-desc">Актуальные модели и коллаборации, включая сложные для поиска в России релизы</div>
         </div>
         <div class="cat-row">
           <div>
-            <div class="cat-name">Стритвир</div>
+            <div class="cat-name-wrap"><span class="cat-name">Стритвир</span></div>
             <div class="cat-code">POIZON / APPAREL</div>
           </div>
           <div class="cat-desc">Худи, куртки и лимитированные дропы известных брендов</div>
         </div>
         <div class="cat-row">
           <div>
-            <div class="cat-name">Электроника</div>
+            <div class="cat-name-wrap">
+              <span class="cat-name">Электроника</span>
+              <span class="tag tag-pop">новое</span>
+            </div>
             <div class="cat-code">TREND / TECH</div>
           </div>
           <div class="cat-desc">Наушники, часы, смарт-очки — то, что сейчас обсуждают в TikTok</div>
         </div>
         <div class="cat-row">
           <div>
-            <div class="cat-name">Сумки</div>
+            <div class="cat-name-wrap"><span class="cat-name">Сумки</span></div>
             <div class="cat-code">TREND / BAGS</div>
           </div>
           <div class="cat-desc">От повседневных моделей до статусных вещей на выход</div>
         </div>
         <div class="cat-row">
           <div>
-            <div class="cat-name">Бижутерия</div>
+            <div class="cat-name-wrap"><span class="cat-name">Бижутерия</span></div>
             <div class="cat-code">TREND / JEWELRY</div>
           </div>
           <div class="cat-desc">Актуальные украшения и аксессуары, которые обновляют образ</div>
